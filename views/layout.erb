@@ -8,9 +8,13 @@
 <body>
 <nav class="center-hrizontal">
 	<a href="#">MUSIC SNS!!!</a>
-	<a href="#"><img src="" alt="user_image" width="40" height="40"></a></li>
-	<a href="#">search</a></li>
-	<a href="#">logout</a>
+	<% unless session[:user] %>
+	  <a href = "sign_up">新規登録</a>
+	<% else %>
+	  <a href="sign_up"><img src="" alt="user_image" width="40" height="40"></a></li>
+	  <a href="#">search</a></li>
+	  <a href="#">logout</a>
+	<% end %>
 </nav>
 <main>
 
