@@ -28,7 +28,7 @@ post '/sign_up' do
         profile: params[:profile])
     if user.persisted? #データベースに保存されたかどうか
         session[:user] = user.id
-        redirect 'search'
+        redirect '/search'
     else
         redirect '/'
     end
@@ -65,4 +65,9 @@ end
 
 get '/edit/:id' do
     erb :edit
+end
+
+post '/update/:id' do
+    
+    redirect '/home'
 end

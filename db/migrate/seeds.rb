@@ -1,0 +1,1 @@
+User.all.update_all(profile: Text.new("https://2.bp.blogspot.com/-5rbWUUdWaJo/VmFj_ljOeOI/AAAAAAAA1bc/2c85T4tJxnY/s800/stand1_front03_youngman.png"))
