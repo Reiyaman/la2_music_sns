@@ -56,3 +56,13 @@ end
 get '/home' do
     erb :home
 end
+
+post '/delete/:id' do
+    song = Song.find(params[:id])
+    song.destroy
+    redirect 'home'
+end
+
+get '/edit/:id' do
+    erb :edit
+end
