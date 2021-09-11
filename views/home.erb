@@ -1,6 +1,24 @@
 <section class="center-vertical">
 	<h1><%= current_user.name %>の投稿</h1>
-	<p>投稿がありません</p>
+	<div class="center-hrizontal">
+		<% if !@posts.empty? %>
+		<% @posts.each do |posting| %>
+			<div class="post center-vertical">
+			<img src= "<%= posting["jacket"] %>">
+			<p><%= posting["artist"] %></p>
+			<p><%= posting["album"] %></p>
+			<p><%= posting["music"] %></p>
+			<a href="<%= posting["resource"] %>">サンプル</a>
+			<p>コメント: <%= posting["comment"] %></p>
+			<a href="/delete/<%= posting.id %>">削除</a>
+			<a href="/edit/<%= posting.id %>">編集</a>
+	</div>
+	</div>
+		<% end %>
+		<% else %>
+		<p>投稿がありません</p>
+		<% end %>
+		
 </section>
 
 <section class="center-vertical">

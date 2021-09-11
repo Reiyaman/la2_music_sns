@@ -1,7 +1,7 @@
 <section class="center-vertical">
 	<h1>検索フォーム</h1>
 	<form action = "/search/result" method = "post">
-		<input type="text" name="artist" placeholder="アーティスト名">
+		<input type="text" name="keyword" placeholder="アーティスト名">
 		<input type="submit" value="検索">
 	</form>
 	<h2>検索結果</h2>
@@ -15,7 +15,12 @@
 						<p><%= song["collectionName"] %></p>
 						<p><%= song["trackName"] %></p>
 						<a href="<%= song["previewUrl"] %>">サンプル</a>
-						<form>
+						<form action = "/posting" method = "post">
+							<input type = "hidden" name = "artist" value = "<%= song["artistName"] %>">
+							<input type = "hidden" name = "jacket" value = "<%= song["artworkUrl100"] %>">
+							<input type = "hidden" name = "resource" value = "<%= song["previewUrl"] %>">
+							<input type = "hidden" name = "music" value = "<%= song["trackName"] %>">
+							<input type = "hidden" name = "album" value = "<%= song["collectionName"] %>">
 							<input type="text" name="comment" placeholder="コメント">
 							<input type="submit" value="投稿">
 						</form>

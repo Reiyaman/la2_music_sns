@@ -74,16 +74,16 @@ end
 
 get '/search' do
     @songs = ""
-    
     erb :search
 end
 
 get '/home' do
+    @posts = current_user.submissions.all
     erb :home
 end
 
-post '/delete/:id' do
-    song = Song.find(params[:id])
+get '/delete/:id' do
+    song = Submission.find(params[:id])
     song.destroy
     redirect '/home'
 end
@@ -98,10 +98,10 @@ post '/update/:id' do
 end
 
 post '/search/result' do
-    artist = params["artist"]
+    keyword = params["keyword"]
     uri = URI("https://itunes.apple.com/search")
     uri.query = URI.encode_www_form({ 
-        term: artist,
+        term: keyword,
         country: "JP",
         media: "music",
         limit: 10
@@ -112,4 +112,19 @@ post '/search/result' do
     @songs = json["results"]
     
     erb :search
+end
+
+post '/posting' do
+    current_user.submissions.create({
+        artist: params[:artist],
+        comment: params[:comment],
+        jacket: params[:jacket],
+        resource: params[:resource],
+        music: params[:music],
+        album: params[:album],
+        user_id: session[:user]
+    })
+    
+    @posts = current_user.submissions.all
+    erb :home
 end
