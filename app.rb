@@ -83,17 +83,22 @@ get '/home' do
 end
 
 get '/delete/:id' do
-    song = Submission.find(params[:id])
+    song = current_user.submissions.find(params[:id])
     song.destroy
     redirect '/home'
 end
 
 get '/edit/:id' do
+    @song = current_user.submissions.find(params[:id])
+    @comment = @song.comment
+    
     erb :edit
 end
 
 post '/update/:id' do
-    
+    song = current_user.submissions.find(params[:id])
+    song.comment = params[:newcomment]
+    song.save!
     redirect '/home'
 end
 
