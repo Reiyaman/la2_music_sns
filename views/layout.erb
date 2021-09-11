@@ -11,9 +11,13 @@
 	<% unless session[:user] %>
 	  <a href = "sign_up">新規登録</a>
 	<% else %>
-	  <a href="/home"><img src="<%= current_user.profile %>" alt="user_image" width="40" height="40"></a></li>
-	  <a href="/search">search</a></li>
-	  <a href="/sign_out">logout</a>
+		<% if current_user.profile.empty? %>
+			<a href="/home"><img src="/assets/img/ireba_hazureru_man.png" alt="user_image" width="40" height="40"></a></li>
+	  	<% else %>
+	  		<a href="/home"><img src="<%= current_user.profile %>" alt="user_image" width="40" height="40"></a></li>
+	  	<% end %>
+	  	<a href="/search">search</a></li>
+	  	<a href="/sign_out">logout</a>
 	<% end %>
 </nav>
 <main>

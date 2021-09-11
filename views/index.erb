@@ -1,7 +1,7 @@
 <section class="first-view center-vertical">
 	<h1>MUSIC SNS!!!</h1>
 	    <% unless session[:user] %>
-	       <form action = "/sign_in" method = "post">
+	       <form action = "/sign_in" method = "post" enctype = "multipart/form-data">
 			<input type = "text" name = "user" placeholder = "ユーザー名">
 			<input type = "password" name = "password" placeholder = "パスワード">
 		    <input type = "submit" value = "ログイン">

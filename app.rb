@@ -3,6 +3,9 @@ Bundler.require
 require 'sinatra/reloader' if development?
 require './models'
 require 'dotenv/load'
+require 'open-uri'
+require 'json'
+require 'net/http'
 
 enable :sessions #セッション機能
 
@@ -47,6 +50,7 @@ post '/sign_up' do
     
     if user.persisted? #データベースに保存されたかどうか
         session[:user] = user.id
+        puts session[:user]
         redirect '/search'
     else
         redirect '/'
@@ -69,6 +73,8 @@ get '/sign_out' do
 end
 
 get '/search' do
+    @songs = ""
+    
     erb :search
 end
 
@@ -89,4 +95,21 @@ end
 post '/update/:id' do
     
     redirect '/home'
+end
+
+post '/search/result' do
+    artist = params["artist"]
+    uri = URI("https://itunes.apple.com/search")
+    uri.query = URI.encode_www_form({ 
+        term: artist,
+        country: "JP",
+        media: "music",
+        limit: 10
+    })
+    
+    res = Net::HTTP.get_response(uri)
+    json = JSON.parse(res.body)
+    @songs = json["results"]
+    
+    erb :search
 end
