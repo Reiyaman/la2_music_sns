@@ -11,12 +11,14 @@
 
 <section class="center-vertical">
 	<h1>最新の投稿</h1>
-
-	<div class="post center-vertical">
-		<img src="" width="125" height="125">
-		<p>artist: 〇〇</p>
-		<p>コメント: 〇〇</p>
-		<p>投稿者: 〇〇<br>
+		<% if !@newposts.empty? %>
+		<% @newposts.reverse_each do |newpost| %>
+		<div class="post center-vertical">
+		<img src="<%= newpost["jacket"]%>" width="125" height="125">
+		<p>artist: <%= newpost["artist"] %></p>
+		<p>コメント: <%= newpost["comment"] %></p>
+		<p>投稿者: <%= User.find_by(id: newpost.user_id).name %><br>
+			<!--
 			<a href="#">フォローする</a>
 			<a href="#">">フォロー解除</a><br>
 		</p>
@@ -24,8 +26,11 @@
 			<img src="" alt="user_image" width="40" height="40">
 		</p>
 		<a href="#">いいねする</a>
-	</div>
-
+		-->
+	    </div>
+   		<% end %>
+   		<% else %>
 	<%# TODO: ここで分岐 %>
-	<p>投稿がありません</p>
+			<p>投稿がありません</p>
+		<% end %>
 </section>

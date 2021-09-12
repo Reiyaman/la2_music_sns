@@ -25,6 +25,8 @@ before do
 end
 
 get '/' do
+    @newposts = Submission.all
+    #@postnames = Submission.find_by(id: params[:id])
     erb :index
 end
 
