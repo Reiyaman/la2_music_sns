@@ -23,14 +23,36 @@
 
 <section class="center-vertical">
 	<h1><%= current_user.name %>のイイねした投稿</h1>
+	<% if !@likenames.empty? %>
+	<% @likenames.each do |likename| %>
+		<div class="post center-vertical">
+			<img src= "<%= Submission.find_by(id: likename.post_id).jacket %>">
+			<p><%= Submission.find_by(id: likename.post_id).artist %></p>
+			<p><%= Submission.find_by(id: likename.post_id).album %></p>
+			<p><%= Submission.find_by(id: likename.post_id).music %></p>
+			<a href="<%= Submission.find_by(id: likename.post_id).resource %>">サンプル</a>
+			<p>投稿者:<%= User.find_by(id: likename.user_id).name %>
+			<p>コメント:<%= Submission.find_by(id: likename.post_id).comment %></p>
+	        <p>いいねしたユーザー</p>
+	        <%# 変数にいいねした投稿のidと同じテーブルだけを抽出する%>
+	        <% @favorites = Like.where(post_id: likename.post_id) %>
+	        <% @favorites.each do |favorite| %>
+	        	<%= User.find_by(id: favorite.user_id).name %>	
+	        <% end %>
+			<a href="/favorite/delete/<%= likename.id %>">お気に入り削除</a>
+		</div>
+	<% end %>
+	<% else %>
 	<p>イイねがありません</p>
+	<% end %>
 </section>
-
+<!--
 <section class="center-vertical">
-	<h1><%= current_user.name %>のフォロー</h1>
+	<h1><%#= current_user.name %>のフォロー</h1>
 	<a href="#">フォロー解除</a><br>
 </section>
 
 <section class="center-vertical">
-	<h1><%= current_user.name %>のフォロワー</h1>
+	<h1><%#= current_user.name %>のフォロワー</h1>
 </section>
+-->

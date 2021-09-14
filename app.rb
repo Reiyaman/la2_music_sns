@@ -27,6 +27,8 @@ end
 get '/' do
     @newposts = Submission.all
     #@postnames = Submission.find_by(id: params[:id])
+    @likes = Like.all
+    @likenames = Like.where(user_id: session[:user])
     erb :index
 end
 
@@ -52,7 +54,6 @@ post '/sign_up' do
     
     if user.persisted? #データベースに保存されたかどうか
         session[:user] = user.id
-        puts session[:user]
         redirect '/search'
     else
         redirect '/'
@@ -80,8 +81,12 @@ get '/search' do
 end
 
 get '/home' do
+    
+    #@likes = Like.all
+    @likenames = Like.where(user_id: session[:user])
     @posts = current_user.submissions.all
     erb :home
+    
 end
 
 get '/delete/:id' do
@@ -131,7 +136,25 @@ post '/posting' do
         album: params[:album],
         user_id: session[:user]
     })
+        
+    redirect '/'
+end
+
+get '/favorite/add/:id' do
     
-    @posts = current_user.submissions.all
-    erb :home
+    if Like.find_by(user_id: session[:user], post_id: params[:id]) == nil #もしまだその投稿にいいねしていなければ作成
+        Like.create(
+        user_id: session[:user],
+        post_id: params[:id]
+        )
+    end
+    
+    redirect '/home'
+end
+
+get '/favorite/delete/:id' do
+    like = Like.find(params[:id])
+    like.destroy
+    
+    redirect '/home'
 end

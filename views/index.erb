@@ -12,25 +12,32 @@
 <section class="center-vertical">
 	<h1>最新の投稿</h1>
 		<% if !@newposts.empty? %>
-		<% @newposts.reverse_each do |newpost| %>
-		<div class="post center-vertical">
-		<img src="<%= newpost["jacket"]%>" width="125" height="125">
-		<p>artist: <%= newpost["artist"] %></p>
-		<p>コメント: <%= newpost["comment"] %></p>
-		<p>投稿者: <%= User.find_by(id: newpost.user_id).name %><br>
-			<!--
-			<a href="#">フォローする</a>
-			<a href="#">">フォロー解除</a><br>
-		</p>
-		<p>いいねしたユーザー<br>
-			<img src="" alt="user_image" width="40" height="40">
-		</p>
-		<a href="#">いいねする</a>
-		-->
-	    </div>
-   		<% end %>
-   		<% else %>
-	<%# TODO: ここで分岐 %>
+			<% @newposts.reverse_each do |newpost| %>
+				<div class="post center-vertical">
+				<img src="<%= newpost["jacket"]%>" width="125" height="125">
+				<p>artist: <%= newpost["artist"] %></p>
+				<p>コメント: <%= newpost["comment"] %></p>
+				<p>投稿者: <%= User.find_by(id: newpost.user_id).name %></p>
+				<p>いいねしたユーザー</p>
+				<% if !@likes.empty? %>
+					<% @likes.reverse_each do |like| %>
+						<%# いいねした投稿レコードのidとnewpostのidが一致しているかどうか%>
+						<% if Submission.find_by(id: like.post_id) == newpost %>
+							<% if User.find_by(id: like.user_id).profile.empty? %>
+								<img src="/assets/img/ireba_hazureru_man.png" alt="user_image" width="40" height="40">
+							<% else %>
+								<img src="<%= User.find_by(id: like.user_id).profile %>" alt="user_image" width="40" height="40">
+							<% end %>
+						<% end %>
+					<% end %>
+				<% end %>
+				<%# まだそのユーザーがいいねしていないとき、かつログインしているとき表示%>
+				<% if Like.find_by(user_id: session[:user], post_id: newpost.id) == nil && session[:user] != nil %>
+					<a href="/favorite/add/<%= newpost["id"] %>">いいねする</a>
+				<% end %>
+		</div>
+			<% end %>
+		<% else %>
 			<p>投稿がありません</p>
 		<% end %>
 </section>
