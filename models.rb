@@ -18,5 +18,5 @@ end
 
 class Like < ActiveRecord::Base
     belongs_to :user
-    belongs_to :submission
+    belongs_to :submissiongha
 end

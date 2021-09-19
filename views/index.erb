@@ -19,7 +19,7 @@
 				<p>コメント: <%= newpost["comment"] %></p>
 				<p>投稿者: <%= User.find_by(id: newpost.user_id).name %></p>
 				<p>いいねしたユーザー</p>
-				<% if !@likes.empty? %>
+				<p><% if !@likes.empty? %>
 					<% @likes.reverse_each do |like| %>
 						<%# いいねした投稿レコードのidとnewpostのidが一致しているかどうか%>
 						<% if Submission.find_by(id: like.post_id) == newpost %>
@@ -29,7 +29,7 @@
 								<img src="<%= User.find_by(id: like.user_id).profile %>" alt="user_image" width="40" height="40">
 							<% end %>
 						<% end %>
-					<% end %>
+					<% end %></p>
 				<% end %>
 				<%# まだそのユーザーがいいねしていないとき、かつログインしているとき表示%>
 				<% if Like.find_by(user_id: session[:user], post_id: newpost.id) == nil && session[:user] != nil %>

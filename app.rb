@@ -26,7 +26,6 @@ end
 
 get '/' do
     @newposts = Submission.all
-    #@postnames = Submission.find_by(id: params[:id])
     @likes = Like.all
     @likenames = Like.where(user_id: session[:user])
     erb :index

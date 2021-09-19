@@ -36,9 +36,9 @@
 	        <p>いいねしたユーザー</p>
 	        <%# 変数にいいねした投稿のidと同じテーブルだけを抽出する%>
 	        <% @favorites = Like.where(post_id: likename.post_id) %>
-	        <% @favorites.each do |favorite| %>
-	        	<%= User.find_by(id: favorite.user_id).name %>	
-	        <% end %>
+	        <p><% @favorites.each do |favorite| %>
+	        	<%= User.find_by(id: favorite.user_id).name %>
+	        <% end %></p>
 			<a href="/favorite/delete/<%= likename.id %>">お気に入り削除</a>
 		</div>
 	<% end %>
